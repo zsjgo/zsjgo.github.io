@@ -3,14 +3,15 @@
 
 	<head>
 		
-<title>文章分类-ZSJ</title>
+<title>Mysql redo与undo日志-ZSJ</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="shortcut icon" type="image/x-icon" href="/image/logo.png">
 
-<meta name="keywords" content="Zsjgo">
-<meta name="description" content="描述">
+
+<meta name="keywords" content="Mysql,">
+<meta name="description" content="">
 
 
 <script src="/js/jquery.min.js"></script>
@@ -33,6 +34,15 @@
 
 	<body>
 		
+<link rel="stylesheet" href="/css/page.css">
+
+
+<link rel="stylesheet" href="/css/page_cente.css">
+
+
+<link rel="stylesheet" href="/css/atom-one-dark.css">
+
+
 <link rel="stylesheet" href="/css/header.css">
 
 	<div class="header">
@@ -64,13 +74,13 @@
 								
 									
 						
-							<li class="select">
-								<a href="/categories">
-									CATEGORIES
-								</a>
-								<span class="dot"></span>
-							</li>
-							
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
 									
 						
 								<li>
@@ -243,75 +253,97 @@
 		<script>
 			$(function () { $(window).scroll(function () { if ($(document).scrollTop() > 100) { $(".header-top").removeClass("header-move2"); $('.header-top').addClass('header-move1') } else { $(".header-top").removeClass("header-move1"); $('.header-top').addClass('header-move2') } }) });
 		</script>
-
-<link rel="stylesheet" href="/css/categories.css">
-
-<div class="header-bg">
+<div class="header-bg bg-content-img">
     <div class="bg-content">
-        <span>
-            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imgblogmyCategory.svg" alt="Q">
-        </span>
-        <h2>文章分类</h2>
+        <ul class="tag">
+            
+            
+            <li><a href="/tags/Mysql">Mysql</a></li>
+            
+            
+        </ul>
+        <h1>Mysql redo与undo日志</h1>
+        <div class="article-info">
+            <div class="article-author">
+                
+                <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                    <path
+                        d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                        p-id="2902" fill="#ffffff"></path>
+                </svg>
+                
+                <span> <a href="">ZSJ</a></span>
+                <p>2021-02-16 21:33:36</p>
+            </div>
+        </div>
     </div>
 </div>
 <div class="article-content">
     <div id="article" class="content">
-        <ul class="onclickul">
-            
-            <li>
-                <div class="link">操作系统
-                    <svg t="1602294178324" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" p-id="4803" width="200" height="200">
-                        <path
-                            d="M454.188 785.022c-145.192-150.177-290.378-300.353-435.422-450.526-59.842-61.836 37.327-154.021 97.313-91.899 129.23 133.647 258.318 267.296 387.548 400.868 133.646-134.287 267.436-268.574 401.083-402.934 60.84-61.123 158.011 31.060 97.244 91.971-150.105 150.89-300.279 301.703-450.454 452.521-24.933 24.934-72.666 25.575-97.311 0z"
-                            p-id="4804" fill="#3C4858"></path>
-                    </svg>
-                </div>
-                <ul class="submenu">
-                    
-                    <li><a href="/2021/02/06/Linux 多线程基础/"> Linux 多线程基础</a></li>
-                    
-                    <li><a href="/2021/02/09/GDB 调试命令/"> GDB调试命令</a></li>
-                    
-                </ul>
-            </li>
-            
-            <li>
-                <div class="link">算法
-                    <svg t="1602294178324" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" p-id="4803" width="200" height="200">
-                        <path
-                            d="M454.188 785.022c-145.192-150.177-290.378-300.353-435.422-450.526-59.842-61.836 37.327-154.021 97.313-91.899 129.23 133.647 258.318 267.296 387.548 400.868 133.646-134.287 267.436-268.574 401.083-402.934 60.84-61.123 158.011 31.060 97.244 91.971-150.105 150.89-300.279 301.703-450.454 452.521-24.933 24.934-72.666 25.575-97.311 0z"
-                            p-id="4804" fill="#3C4858"></path>
-                    </svg>
-                </div>
-                <ul class="submenu">
-                    
-                    <li><a href="/2020/11/03/数据结构的妙用：单调栈与单调队列/"> 数据结构的妙用 单调栈与单调队列</a></li>
-                    
-                </ul>
-            </li>
-            
-            <li>
-                <div class="link">Mysql
-                    <svg t="1602294178324" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" p-id="4803" width="200" height="200">
-                        <path
-                            d="M454.188 785.022c-145.192-150.177-290.378-300.353-435.422-450.526-59.842-61.836 37.327-154.021 97.313-91.899 129.23 133.647 258.318 267.296 387.548 400.868 133.646-134.287 267.436-268.574 401.083-402.934 60.84-61.123 158.011 31.060 97.244 91.971-150.105 150.89-300.279 301.703-450.454 452.521-24.933 24.934-72.666 25.575-97.311 0z"
-                            p-id="4804" fill="#3C4858"></path>
-                    </svg>
-                </div>
-                <ul class="submenu">
-                    
-                    <li><a href="/2021/02/16/Mysql redo 与 undo 日志/"> Mysql redo与undo日志</a></li>
-                    
-                </ul>
-            </li>
-            
-        </ul>
+        <h1 id="Mysql-redo-与-undo-日志"><a href="#Mysql-redo-与-undo-日志" class="headerlink" title="Mysql redo 与 undo 日志"></a>Mysql redo 与 undo 日志</h1><blockquote>
+<p>事务 AICD 中的原子性、一致性、持久性都是通过数据库的 redo log 和 undo log 来完成的。redo log 称为重做日志，用来保证事务的原子性和持久性。undo log 用来保证事务的一致性。</p>
+</blockquote>
+<h2 id="重做日志-redo-log"><a href="#重做日志-redo-log" class="headerlink" title="重做日志(redo log)"></a>重做日志(redo log)</h2><p>重做日志用来实现持久性，由两部分组成，一是内存中的重做日志缓冲（redo log buffer), 二是重做日志文件（redo log file)。</p>
+<blockquote>
+<p>如何通过 redo log 实现持久化?</p>
+</blockquote>
+<p>Innodb 有一个 Force Log at Commit 机制，即当事务进行提交的时候，必须把该事务的所有日志写入到重做日志文件进行持久化。具体来说就是只要事务提交成功，那么对数据库做的修改就被永久保存下来了，不可能因为任何原因再回到原来的状态。</p>
+<p>如果没有redo log 有一个更简单的做法，就是每次事务提交的时候，将该事务设计修改的数据页全部刷新到磁盘中，但这么做会有严重的性能问题，有两个原因：</p>
+<ul>
+<li>因为 Innodb 是以页为单位进行磁盘交互的，而一个事务很可能只修改一个数据页里面的几个字节，这个时候将完整的数据页刷到磁盘的话，太浪费资源了。</li>
+<li>一个事务可能涉及修改多个数据页，并且这些数据页在物理上并不连续，使用随机 IO 写入性能太差。</li>
+</ul>
+<p>因此 MySQL 设计了 redo log ，具体来说就是只记录事务对数据页做了哪些修改，这样就能完美地解决性能问题了(相对而言文件更小并且是顺序IO)。</p>
+<p>在Innodb 存储引擎运行过程中，log buffe 会根据一定的规则将 log block 重写到磁盘上：</p>
+<ul>
+<li>事务提交时</li>
+<li>当 log buffer 有一半空间已经被使用时</li>
+<li>log checkpoint 时</li>
+</ul>
+<h2 id="Undo-log"><a href="#Undo-log" class="headerlink" title="Undo log"></a>Undo log</h2><p><code>undo log</code> 主要用于保证数据的原子性，保存了事务发生之前的数据的一个版本，可以用于回滚。比如一条 INSERT 语句，对应一条 DELETE 的 undo log ，对于每个 UPDATE 语句，对应一条相反的 UPDATE 的 undo log ，这样在发生错误时，就能回滚到事务之前的数据状态。同时，undo log 也是 MVCC (多版本并发控制) 实现的关键。</p>
+<blockquote>
+<p>整理地相当浅显，待后续……</p>
+</blockquote>
+
     </div>
 </div>
-<script>$(function () { $('.article-content').addClass('content-move'); var Accordion = function (el, multiple) { this.el = el || {}; this.multiple = multiple || false; var links = this.el.find('.link'); links.on('click', { el: this.el, multiple: this.multiple }, this.dropdown) }; Accordion.prototype.dropdown = function (e) { var $el = e.data.el; $this = $(this); $next = $this.next(); $svg = $this.children()[0]; $next.slideToggle(); $this.parent().toggleClass('open'); if (!e.data.multiple) { $el.find('.submenu').not($next).slideUp().parent().removeClass('open') } }; var accordion = new Accordion($('.onclickul'), false) });</script>
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 109;
+        width: 600px !important;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            width: 88%
+        }
+    }
+</style>
+<script>
+    $(function () { $('#article').click(function (e) { if (e.target.tagName == "IMG") { if ($('#nonediv').length == 0) { let MImg = `<div id='noneimg'><img src='${e.target.currentSrc}'></div>`; let MDiv = "<div id='nonediv' style='cursor: pointer;display: none; position: fixed;left: 0;top: 0; right: 0;bottom: 0;background-color: #333;opacity:0.5;z-index: 108;'></div>"; $('#article').append(MDiv); $('#article').append(MImg); $("#nonediv").fadeIn("slow"); $("#noneimg img").fadeIn("slow") } } else { if ($('#nonediv').length !== 0) { $("#noneimg ").fadeOut("slow"); $("#nonediv").fadeOut("slow"); setTimeout(function () { $('#nonediv').remove(); $('#noneimg').remove() }, 500) } } }); $('.article-content').addClass('content-move') });
+</script>
+<div class="Last-Next">
+    
+
+    
+    <a href="/2021/02/09/GDB%20%E8%B0%83%E8%AF%95%E5%91%BD%E4%BB%A4/">
+        <div class="next">
+            <span>下一篇</span>
+            <p>GDB调试命令</p>
+        </div>
+    </a>
+    
+</div>
 		
 <link rel="stylesheet" href="/css/food.css">
 
