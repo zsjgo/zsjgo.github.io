@@ -3,14 +3,15 @@
 
 	<head>
 		
-<title>Hello World-ZSJ</title>
+<title>一条SQL更新语句的执行流程-ZSJ</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="shortcut icon" type="image/x-icon" href="/image/logo.png">
 
-<meta name="keywords" content="Zsjgo">
-<meta name="description" content="描述">
+
+<meta name="keywords" content="Mysql,">
+<meta name="description" content="">
 
 
 <script src="/js/jquery.min.js"></script>
@@ -256,8 +257,12 @@
     <div class="bg-content">
         <ul class="tag">
             
+            
+            <li><a href="/tags/Mysql">Mysql</a></li>
+            
+            
         </ul>
-        <h1>Hello World</h1>
+        <h1>一条SQL更新语句的执行流程</h1>
         <div class="article-info">
             <div class="article-author">
                 
@@ -269,22 +274,45 @@
                 </svg>
                 
                 <span> <a href="">ZSJ</a></span>
-                <p>2021-02-03 22:52:03</p>
+                <p>2020-11-09 10:33:36</p>
             </div>
         </div>
     </div>
 </div>
 <div class="article-content">
     <div id="article" class="content">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h1 id="一条SQL更新语句执行流程"><a href="#一条SQL更新语句执行流程" class="headerlink" title="一条SQL更新语句执行流程"></a>一条SQL更新语句执行流程</h1><p>更新语句和查询语句不同点在于，更新语句涉及到对数据库执行写的操作，所以在过程中会相对更复杂一些。</p>
+<p>首先整个逻辑流程是差不多的，首先是连接器进行连接，然后因为是更新语句，所以会将这个表上的所有查询缓存清空，接下来分析器会通过词法语法解析，优化器决定执行流程，执行器负责执行。</p>
+<p>不同之处在于，所有写操作即更新语句会涉及到两个比较重要的日志模块，redo log(重做日志) 和 binlog(归档日志)。</p>
+<h2 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h2><p>更新语句会对数据库的数据进行改动，因此写的内容需要更新到磁盘内。最粗暴简单的方法就是在每次更新或插入一条语句的时候都将该记录写入磁盘内。但是这样遇到大量写操作时 磁盘IO 的成本将相当高。</p>
+<p>因此Mysql 会使用 WAL 技术，即Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。</p>
+<p>InnoDB引擎会在适当时候将这个日志的内容更新到磁盘里。</p>
+<p>需要指出，redo log 是固定的大小，会循环写。</p>
+<p><img src="C:\Users\ZSJ\AppData\Roaming\Typora\typora-user-images\image-20210224210233441.png" alt="image-20210224210233441"></p>
+<p>有了 redo log，InnoDB 就可以保证即使数据库发生异常重启，之前提交的记录都不会丢失，这个能力称为<strong>crash-safe</strong>。</p>
+<h2 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h2><p>redo log 其实是InnoDB 引擎层自己的日志，而其他引擎可能没有自己的日志系统，所以Mysql Server 层也有自己的日志，binlog。</p>
+<blockquote>
+<p>为什么有两份日志呢？</p>
+</blockquote>
+<p>因为最开始 MySQL 里并没有 InnoDB 引擎。MySQL 自带的引擎是 MyISAM，但是 MyISAM 没有 crash-safe 的能力，binlog 日志只能用于归档。而 InnoDB 是另一个公司以插件形式引入 MySQL 的，既然只依靠 binlog 是没有 crash-safe 能力的，所以 InnoDB 使用另外一套日志系统——也就是 redo log 来实现 crash-safe 能力。</p>
+<p>这两种日志有以下三点不同。</p>
+<ol>
+<li>redo log 是 InnoDB 引擎特有的；binlog 是 MySQL 的 Server 层实现的，所有引擎都可以使用。</li>
+<li>redo log 是物理日志，记录的是“在某个数据页上做了什么修改”；binlog 是逻辑日志，记录的是这个语句的原始逻辑，比如“给 ID=2 这一行的 c 字段加 1 ”。</li>
+<li>redo log 是循环写的，空间固定会用完；binlog 是可以追加写入的。“追加写”是指 binlog 文件写到一定大小后会切换到下一个，并不会覆盖以前的日志。</li>
+</ol>
+<h2 id="更新语句执行流程"><a href="#更新语句执行流程" class="headerlink" title="更新语句执行流程"></a>更新语句执行流程</h2><ol>
+<li>执行器先找引擎取 ID=2 这一行。ID 是主键，引擎直接用树搜索找到这一行。如果 ID=2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回。</li>
+<li>执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据。</li>
+<li>引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务。</li>
+<li>执行器生成这个操作的 binlog，并把 binlog 写入磁盘。</li>
+<li>执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。</li>
+</ol>
+<p><img src="C:\Users\ZSJ\AppData\Roaming\Typora\typora-user-images\image-20210224210758230.png" alt="image-20210224210758230"></p>
+<p>图中浅色框表示是在 InnoDB 内部执行的，深色框表示是在执行器中执行的。</p>
+<h2 id="redo-log-两阶段提交"><a href="#redo-log-两阶段提交" class="headerlink" title="redo log 两阶段提交"></a>redo log 两阶段提交</h2><p>可以注意到以上执行流程中，redo log 采用两次提交的逻辑，主要是为了使数据在redo log 和bin log 保持一致。</p>
+<p>考虑这样的情况，如果redo log不分为两次提交，在第一次提交过后，数据库崩溃，这样即使恢复，binlog 里并没有保存之前的记录，而redolog 却保存了，这样以后用binlog 进行恢复的话，会和原来的数据不同。</p>
+<p>简单说，redo log 和 binlog 都可以用于表示事务的提交状态，而两阶段提交就是让这两个状态保持逻辑上的一致。</p>
 
     </div>
 </div>
@@ -314,19 +342,19 @@
 </script>
 <div class="Last-Next">
     
-    <a href="/2021/02/06/Linux%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80/">
+    <a href="/2021/02/03/hello-world/">
         <div class="last">
             <span>上一篇</span>
-            <p>Linux 多线程基础</p>
+            <p>Hello World</p>
         </div>
     </a>
     
 
     
-    <a href="/2020/11/09/%E4%B8%80%E6%9D%A1SQL%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B/">
+    <a href="/2020/11/03/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%A6%99%E7%94%A8%EF%BC%9A%E5%8D%95%E8%B0%83%E6%A0%88%E4%B8%8E%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">
         <div class="next">
             <span>下一篇</span>
-            <p>一条SQL更新语句的执行流程</p>
+            <p>数据结构的妙用 单调栈与单调队列</p>
         </div>
     </a>
     

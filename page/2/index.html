@@ -33,8 +33,7 @@
 
 	<body>
 		
-
-<link rel="stylesheet" href="/css/archive.css">
+<link rel="stylesheet" href="/css/home.css">
 
 
 <link rel="stylesheet" href="/css/header.css">
@@ -50,22 +49,22 @@
 				<ul>
 					
 						
-								<li>
-									<a href="/">
-										HOME
-									</a>
-									<span class="dot"></span>
-								</li>
-								
-									
-						
 							<li class="select">
-								<a href="/archives">
-									ARCHIVE
+								<a href="/">
+									HOME
 								</a>
 								<span class="dot"></span>
 							</li>
 							
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
 									
 						
 								<li>
@@ -247,88 +246,59 @@
 		<script>
 			$(function () { $(window).scroll(function () { if ($(document).scrollTop() > 100) { $(".header-top").removeClass("header-move2"); $('.header-top').addClass('header-move1') } else { $(".header-top").removeClass("header-move1"); $('.header-top').addClass('header-move2') } }) });
 		</script>
-
 <div class="header-bg">
-    <div class="bg-content">
-        <span>
-            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imgicon-remixicon.svg" alt="Q">
-        </span>
-
-        <h2>居然用了 2 年一共才写了 10 篇文章!</h2>
-    </div>
+	<div class="bg-content">
+		<span>
+			<img class="site-logo" src="/image/logo.png" alt="Q">
+		</span>
+		<h2>
+			WITH IDEALS AND BELIEFS.
+		</h2>
+	</div>
 </div>
-<div class="article-content">
-    <div id="article" class="content">
-        
-        <p>
-            2021
-        </p>
-        
-        <a href="/2021/02/25/Webserver 解析/">
-            <span>Webserver 解析</span>
-            <time>02-25</time>
-        </a>
-        
-        <a href="/2021/02/21/Mysql 事务隔离/">
-            <span>Mysql事务隔离</span>
-            <time>02-21</time>
-        </a>
-        
-        <a href="/2021/02/20/Linux 进程 总结/">
-            <span>Linux进程总结</span>
-            <time>02-20</time>
-        </a>
-        
-        <a href="/2021/02/16/Mysql redo 与 undo 日志/">
-            <span>Mysql redo与undo日志</span>
-            <time>02-16</time>
-        </a>
-        
-        <a href="/2021/02/09/GDB 调试命令/">
-            <span>GDB调试命令</span>
-            <time>02-09</time>
-        </a>
-        
-        <a href="/2021/02/06/Linux 多线程基础/">
-            <span>Linux 多线程基础</span>
-            <time>02-06</time>
-        </a>
-        
-        <a href="/2021/02/03/hello-world/">
-            <span>Hello World</span>
-            <time>02-03</time>
-        </a>
-        
-        
-        <p>
-            2020
-        </p>
-        
-        <a href="/2020/11/09/一条SQL更新语句执行流程/">
-            <span>一条SQL更新语句的执行流程</span>
-            <time>11-09</time>
-        </a>
-        
-        <a href="/2020/11/03/数据结构的妙用：单调栈与单调队列/">
-            <span>数据结构的妙用 单调栈与单调队列</span>
-            <time>11-03</time>
-        </a>
-        
-        <a href="/2020/10/09/一条SQL语句的执行过程/">
-            <span>一条SQL语句的执行过程</span>
-            <time>10-09</time>
-        </a>
-        
-        
-    </div>
+<div class="main">
+	<div class="feed">
+		
+			<div class="feed-display">
+				<a href="/2020/10/09/%E4%B8%80%E6%9D%A1SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B/">
+					<h2 class="feed-title">
+						一条SQL语句的执行过程
+					</h2>
+					
+						<img src="https://cdn.pixabay.com/photo/2021/02/15/16/51/city-6018511__480.jpg" alt="Quiet">
+						
+				</a>
+				<div class="feed-meat">
+					<div class="meat-info">
+						<div class="info-auth">
+							<a href="">
+								ZSJ
+							</a>
+						</div>
+						<div class="info-data">
+							2020-10-09
+						</div>
+					</div>
+					<div class="meat-type"></div>
+				</div>
+			</div>
+			
+	</div>
+</div>
+<div class="change-page">
+	
+		<div class="p-page">
+			<a href="/">
+				<div class="previous">
+					上一页
+				</div>
+			</a>
+		</div>
+		
+			
 </div>
 
-
-
-
-<script>
-    $(function () { $('.article-content').addClass('content-move'); })
-</script>
+<script>$(function () { $('.feed').addClass('move'); })</script>
 		
 <link rel="stylesheet" href="/css/food.css">
 
