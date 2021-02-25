@@ -309,8 +309,8 @@
 </li>
 </ul>
 <h3 id="进程状态转换"><a href="#进程状态转换" class="headerlink" title="进程状态转换"></a>进程状态转换</h3><p>进程状态有三个基本状态，即就绪态，运行态，阻塞态。在五态模型中，进程分为新建态，就绪态，运行态，阻塞态，终止态。</p>
-<p><img src="/2021/02/20/Linux%20%E8%BF%9B%E7%A8%8B%20%E6%80%BB%E7%BB%93/Users\ZSJ\AppData\Roaming\Typora\typora-user-images\image-20210222223030914.png" alt="image-20210222223030914"></p>
-<p><img src="/2021/02/20/Linux%20%E8%BF%9B%E7%A8%8B%20%E6%80%BB%E7%BB%93/Users\ZSJ\AppData\Roaming\Typora\typora-user-images\image-20210222223057351.png" alt="image-20210222223057351"></p>
+<p><img src="https://i.loli.net/2021/02/25/qtbZIESPp5CrLUf.png" alt="image-20210222223030914.png"></p>
+<p><img src="https://i.loli.net/2021/02/25/58Duy3S7zOxctZF.png" alt="image-20210222223057351.png"></p>
 <h3 id="进程号和相关函数"><a href="#进程号和相关函数" class="headerlink" title="进程号和相关函数"></a>进程号和相关函数</h3><p>每个进程都由进程号来标识，其类型为 pid_t（整型），进程号的范围： 0～ 32767。进程号总是唯一的，但可以重用。当一个进程终止后，其进程号就可以再次使用。  </p>
 <p>任何进程（除 init 进程）都是由另一个进程创建，该进程称为被创建进程的父进程，对应的进程号称为父进程号（PPID）。  </p>
 <p>进程组是一个或多个进程的集合。他们之间相互关联，进程组可以接收同一终端的各种信号，关联的进程有一个进程组号（PGID）。默认情况下，当前的进程号会当做当前的进程组号。  </p>
@@ -386,7 +386,7 @@
 <figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">pid_t</span> <span class="hljs-title">fork</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">返回值：</span><br><span class="hljs-comment">成功：子进程中返回 0，父进程中返回子进程 ID</span><br><span class="hljs-comment">失败：返回 -1</span><br><span class="hljs-comment">失败的两个主要原因：</span><br><span class="hljs-comment">1. 当前系统的进程数已经达到了系统规定的上限，这时 errno 的值被设置</span><br><span class="hljs-comment">为 EAGAIN</span><br><span class="hljs-comment">2. 系统内存不足，这时 errno 的值被设置为 ENOMEM</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
 <h3 id="父子进程虚拟地址空间情况"><a href="#父子进程虚拟地址空间情况" class="headerlink" title="父子进程虚拟地址空间情况"></a>父子进程虚拟地址空间情况</h3><p>fork() 以后，子进程会clone 父进程的虚拟地址空间，其中用户区的数据子进程和父进程完全一样，但是内核区的数据中有所不同，比如进程号pid。</p>
 <p>但实际操作系统中使用了写时复制，读时共享的技术，减少了开销。</p>
-<p><img src="/2021/02/20/Linux%20%E8%BF%9B%E7%A8%8B%20%E6%80%BB%E7%BB%93/Users\ZSJ\AppData\Roaming\Typora\typora-user-images\image-20210222225341329.png" alt="image-20210222225341329"></p>
+<p><img src="https://i.loli.net/2021/02/25/WhL9AgjZ5wTPutV.png" alt="image-20210222225341329.png"></p>
 <h2 id="GDB-多进程调试"><a href="#GDB-多进程调试" class="headerlink" title="GDB 多进程调试"></a>GDB 多进程调试</h2><p>使用 GDB 调试的时候， GDB 默认只能跟踪一个进程，可以在 fork 函数调用之前，通过指令设置 GDB 调试工具跟踪父进程或者是跟踪子进程，默认跟踪父进程。  </p>
 <p><strong>设置调试父进程或者子进程</strong>： set follow-fork-mode [parent（默认） | child]  </p>
 <p>设置调试模式： set detach-on-fork [on | off]<br>默认为 on，表示调试当前进程的时候，其它的进程继续运行，如果为 off，调试当前进程的时候，其它进程被 GDB 挂  </p>
